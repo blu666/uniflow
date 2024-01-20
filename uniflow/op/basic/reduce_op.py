@@ -8,18 +8,13 @@ from uniflow.op.op import Op
 class ReduceOp(Op):
     """Reduce operation class."""
 
-    def __call__(self, node1: Sequence[Node], node2: Sequence[Node], reduce_func: Callable[[int, Any], int] = None) -> Sequence[Node]:
-        """Reduce operation.
+    def __init__(self, name: str = None, reduce_func: Callable[[int, Any], int] = None):
+        """Initialize ReduceOp.
 
         Args:
-            node1 (Sequence[Node]): Input node.
-            node2 (Sequence[Node]): Input node.
-            reduce_func (Callable[[int, Any], int]): (Optional) Input reduce function that specifies how nodes should be combined.
-
-        Returns:
-            Sequence[Node]: Output node.
+            name (str): (Optional) Name of the operation.
         """
-
+        super().__init__(name=name)
         if reduce_func:
             self._reduce_func = reduce_func
         else:
@@ -39,6 +34,19 @@ class ReduceOp(Op):
                 return new_value_dict
             
             self._reduce_func = reduce_func
+
+    def __call__(self, node1: Sequence[Node], node2: Sequence[Node], reduce_func: Callable[[int, Any], int] = None) -> Sequence[Node]:
+        """Reduce operation.
+
+        Args:
+            node1 (Sequence[Node]): Input node.
+            node2 (Sequence[Node]): Input node.
+            reduce_func (Callable[[int, Any], int]): (Optional) Input reduce function that specifies how nodes should be combined.
+
+        Returns:
+            Sequence[Node]: Output node.
+        """
+
         new_value_dict = self._reduce_func(node1.value_dict, node2.value_dict)
         output_node = Node(name=self.unique_name(), value_dict=new_value_dict, prev_nodes=[node1, node2])
         return [output_node]

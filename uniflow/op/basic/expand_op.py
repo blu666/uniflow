@@ -7,7 +7,20 @@ from uniflow.op.op import Op
 class ExpandOp(Op):
     """Expand operation class."""
     
-    def __call__(self, nodes: Sequence[Node], expand_func: Callable[[int, Any], int] = None) -> Sequence[Node]:
+    def __init__(self, name: str = None, expand_func: Callable[[int, Any], int] = None):
+        """Initialize ExpandOp.
+        
+        Args:
+            name (str): (Optional) Name of the operation.
+        """
+        super().__init__(name=name)
+        if expand_func:
+            self._expand_func = expand_func
+        else:
+            self._expand_func = lambda index, node: index < len(node.value_dict) // 2 # default expand_func
+
+
+    def __call__(self, nodes: Sequence[Node]) -> Sequence[Node]:
         """Expand operation.
         
         Args:
@@ -17,11 +30,7 @@ class ExpandOp(Op):
         Returns:
             Sequence[Node]: Output nodes.
         """
-        if expand_func:
-            self._expand_func = expand_func
-        else:
-            self._expand_func = lambda index, node: index < len(node.value_dict) // 2 # default expand_func
-        
+           
         output_nodes = []     
         
         for node in nodes:
