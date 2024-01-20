@@ -20,6 +20,9 @@ from uniflow.flow.transform.transform_lmqg_flow import (  # noqa: F401, F403
 from uniflow.flow.transform.transform_openai_flow import (  # noqa: F401, F403
     TransformOpenAIFlow,
 )
+from uniflow.flow.transform.expand_reduce_flow import (  # noqa: F401, F403
+    ExpandReduceFlow,
+)
 
 __all__ = [
     "TransformOpenAIFlow",
@@ -27,4 +30,5 @@ __all__ = [
     "TransformLMQGFlow",
     "TransformCopyFlow",
     "TransformAzureOpenAIFlow",
+    "ExpandReduceFlow",
 ]
