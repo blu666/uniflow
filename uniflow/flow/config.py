@@ -320,6 +320,15 @@ class TransformForClusteringOpenAIGPT4Config:
         )
     )
 
+@dataclass
+class TransformExpandReduceConfig(TransformConfig):
+    """Transform ExpandReduce Config Class."""
+
+    flow_name: str = "TransformExpandReduceFlow"
+    prompt_template: PromptTemplate = field(
+        default_factory=lambda: PromptTemplate(instruction="", few_shot_prompt=[])
+    )
+    model_config: ModelConfig = field(default_factory=lambda: {})
 
 ###########################################################
 #                   All AutoRater Config                  #

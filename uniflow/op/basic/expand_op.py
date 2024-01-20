@@ -5,12 +5,7 @@ from uniflow.node import Node
 from uniflow.op.op import Op
 
 class ExpandOp(Op):
-    # def __init__(self, expand_func: Callable[[int, Any], int] = None) -> None:
-    #     super().__init__()
-    #     if expand_func:
-    #         self._expand_func = expand_func
-    #     else:
-    #         self._expand_func = lambda index, node: index > len(node.value_dict) // 2 # default expand_func
+    """Expand operation class."""
     
     def __call__(self, nodes: Sequence[Node], expand_func: Callable[[int, Any], int] = None) -> Sequence[Node]:
         """Expand operation.
@@ -29,13 +24,8 @@ class ExpandOp(Op):
         
         output_nodes = []
         for node in nodes:
-            
-            # print(node, flush=True)
-            # print(type(node.value_dict[0]), flush=True)
-            # print(len(node.value_dict), flush=True)
             dict1, dict2 = dict(), dict()
             for index, key in enumerate(node.value_dict[0].keys()):
-                # print(index, key, flush=True)
                 if self._expand_func(index, node):
                     dict1[key] = copy.deepcopy(node.value_dict[0][key])
                 else:
