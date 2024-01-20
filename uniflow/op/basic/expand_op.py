@@ -20,16 +20,18 @@ class ExpandOp(Op):
         if expand_func:
             self._expand_func = expand_func
         else:
-            self._expand_func = lambda index, node: index > len(node.value_dict) // 2 # default expand_func
+            self._expand_func = lambda index, node: index < len(node.value_dict) // 2 # default expand_func
         
-        output_nodes = []
+        output_nodes = []     
+        
         for node in nodes:
             dict1, dict2 = dict(), dict()
-            for index, key in enumerate(node.value_dict[0].keys()):
+            value_dict = node.value_dict if type(node.value_dict) == dict else node.value_dict[0]
+            for index, key in enumerate(value_dict.keys()):
                 if self._expand_func(index, node):
-                    dict1[key] = copy.deepcopy(node.value_dict[0][key])
+                    dict1[key] = copy.deepcopy(value_dict[key])
                 else:
-                    dict2[key] = copy.deepcopy(node.value_dict[0][key])
+                    dict2[key] = copy.deepcopy(value_dict[key])
             output_node = [
                 Node(name=self.unique_name(), value_dict=dict1, prev_nodes=[node]),
                 Node(name=self.unique_name(), value_dict=dict2, prev_nodes=[node]),

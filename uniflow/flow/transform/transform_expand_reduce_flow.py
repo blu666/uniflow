@@ -14,8 +14,6 @@ class TransformExpandReduceFlow(Flow):
 
     def __init__(
         self,
-        prompt_template: PromptTemplate,
-        model_config: Dict[str, Any],
     ) -> None: 
         """Initialize CopyFlow class."""
         self._expand_op = ExpandOp(name="expand_op")
